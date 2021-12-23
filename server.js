@@ -39,8 +39,8 @@ passport.use(new JWTStrategy({
       cb (null, user) 
     } catch(err) {
         cb(err,null)
-      } )
-  })
+      }
+  }))
 
 app.use(require('./routes'))
 //run on login or connect
