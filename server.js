@@ -1,13 +1,13 @@
 require('dotenv').config() 
 
 const path = require('path');
-const http = require('http');
+// const http = require('http');
 const express = require('express');
 const socketio = require('socket.io')
 
 const app = express();
-const server = http.createServer(app)
-const io = socketio(server)
+// const server = http.createServer(app)
+// const io = socketio(server)
 
 const { Strategy: JWTStrategy, ExtractJwt } = require('passport-jwt')
 // defining passport path
@@ -23,7 +23,7 @@ app.use(express.json())
 //express uses passport and initializes / calls into session
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(require('express-session'))
+// app.use(require('express-session'))
 
 // user authenticator
 passport.use(User.createStrategy())
@@ -44,9 +44,17 @@ passport.use(new JWTStrategy({
 
 app.use(require('./routes'))
 //run on login or connect
-io.on('connection', socket => {
-  console.log('new connection')
-})
+// io.on('login', socket => {
+//   console.log('new connection')
+//   socket.emit('Post','Welcome to Chat Wallet!')
+
+//   // broadcast when user logs in //
+//   socket.broadcast.emit('Post', `${User.username} has joined the chat`)
+
+//   socket.on('logout' () => {
+//     io.emit('Post', `${User.username} has left the chat`)
+//   })
+// })
 
 async function init() {
   await require('./db').sync() 
@@ -55,5 +63,5 @@ async function init() {
 
 init();
 
-const PORT = 3000 || process.env.PORT
-server.listen(PORT, () => console.log(`Server running on ${PORT}`))
+// const PORT = 3000 || process.env.PORT
+// server.listen(PORT, () => console.log(`Server running on ${PORT}`))
