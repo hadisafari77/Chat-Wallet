@@ -1,7 +1,7 @@
 //possibly don't need, not sure
-const pls = require('passport-local-sequelize')
-const { Model, DataTypes } = require('sequelize')
-const sequelize = require('../db')
+// const pls = require('passport-local-sequelize')
+// const { Model, DataTypes } = require('sequelize')
+// const sequelize = require('../db')
 
 const user = pls.defineUser(sequelize, {
   username: {
