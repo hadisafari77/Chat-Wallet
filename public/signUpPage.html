@@ -61,8 +61,8 @@
       }
       axios.post('/api/users/register', newUser)
         .then(res => {
-          console.log('user created')
-          location = './loginPage.html'
+          alert('Account Created')
+          location = ('./loginPage.html')
           document.getElementById('rUsername').value = ''
           document.getElementById('rPassword').value = ''
         })
