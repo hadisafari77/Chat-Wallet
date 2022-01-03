@@ -4,7 +4,7 @@ const path = require('path');
 // const http = require('http');
 const express = require('express');
 const socketio = require('socket.io')
-
+const session = require('express-session')
 const app = express();
 // const server = http.createServer(app)
 const io = socketio()
@@ -23,7 +23,14 @@ app.use(express.json())
 //express uses passport and initializes / calls into session
 app.use(passport.initialize())
 app.use(passport.session())
-// app.use(require('express-session'))
+
+
+app.use(session({
+  secret: process.env.SECRET, maxAge: 60 * 60 * 1000, resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false, maxAge: 60 * 30 * 1000 }
+}));
+
 
 // user authenticator
 passport.use(User.createStrategy())

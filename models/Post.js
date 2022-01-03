@@ -3,7 +3,6 @@ const sequelize = require('../db')
 
 class Post extends Model { }
 Post.init({
-  },
   body: {
     type: DataTypes.STRING,
     allowNull: false
