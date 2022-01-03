@@ -15,6 +15,13 @@ const passport = require('passport')
 // defining the required models for functionality
 const { User, Post } = require('./models')
 
+app.use(session({
+  secret: process.env.SECRET, maxAge: 60 * 60 * 1000, resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false, maxAge: 60 * 30 * 1000 }
+}));
+
+
 
 //STATIC FOLDER
 app.use(express.static(path.join(__dirname, 'public')));
@@ -24,12 +31,6 @@ app.use(express.json())
 app.use(passport.initialize())
 app.use(passport.session())
 
-
-app.use(session({
-  secret: process.env.SECRET, maxAge: 60 * 60 * 1000, resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false, maxAge: 60 * 30 * 1000 }
-}));
 
 
 // user authenticator

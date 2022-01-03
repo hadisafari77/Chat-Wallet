@@ -54,27 +54,23 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
   <script>
-    async function registerUser(user) {
-      try {
-        await axios.post('/api/users/register', user)
-        return true
-      } catch (err) {
-        alert('Invalid Information. Try Again.')
-      }
-    }
-
-    document.getElementById('register').addEventListener('click', async function (event) {
-      event.preventDefault()
-
-      const isMade = await registerUser({
+    function registerUser() {
+      let newUser = {
         username: document.getElementById('rUsername').value,
         password: document.getElementById('rPassword').value
-      })
-      if (isMade) {
-        alert('Account Created!')
-      } else {
-        alert('Something Went Wrong, Try Again.')
       }
+      axios.post('/api/users/register', newUser)
+        .then(res => {
+          console.log('user created')
+          location = './loginPage.html'
+          document.getElementById('rUsername').value = ''
+          document.getElementById('rPassword').value = ''
+        })
+    }
+
+    document.getElementById('register').addEventListener('click', (event) => {
+      event.preventDefault()
+      registerUser()
     })
   </script>
 </body>
