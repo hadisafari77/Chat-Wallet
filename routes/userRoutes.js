@@ -17,10 +17,10 @@ router.post('/users/register', (req, res) => {
 router.post('/users/login', (req, res) => {
   User.authenticate()(req.body.username, req.body.password, (err, user) => {
     if (err) { console.log(err) }
-    res.session.save(() => {
-      req.session.userId = user.id;
-      req.session.username = username;
-      req.session.loggedIn = true;
+    // req.session.save(() => {
+    //   req.session.userId = user.id;
+    //   req.session.username = user.username;
+    //   req.session.loggedIn = true;
 
       res.json(user ? {
         username: user.username,
@@ -28,7 +28,8 @@ router.post('/users/login', (req, res) => {
       } : null)
     })
   })
-})
+  
+// })
 
 // getting user information for profile generation
 router.get('/users/profile', passport.authenticate('jwt'), (req, res) => res.json(req.user))

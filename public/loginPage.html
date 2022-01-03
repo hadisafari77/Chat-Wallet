@@ -69,8 +69,10 @@
 
       const { username, token } = await loginUser({
         username: document.getElementById('lUsername').value,
-        password: document.getElementById('lPassword').value
+        password: document.getElementById('lPassword').value,
+
       })
+      console.log({username, token})
 
       if (token) {
         localStorage.setItem('username', username)
