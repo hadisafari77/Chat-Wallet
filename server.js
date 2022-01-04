@@ -53,17 +53,17 @@ passport.use(new JWTStrategy({
 
 app.use(require('./routes'))
 //run on login or connect
-// io.on('login', socket => {
-//   console.log('new connection')
-//   socket.emit('Post','Welcome to Chat Wallet!')
+io.on('login', socket => {
+   console.log('new connection')
+  socket.emit('Post','Welcome to Chat Wallet!')
 
-//   // broadcast when user logs in //
-//   socket.broadcast.emit('Post', `${User.username} has joined the chat`)
+   // broadcast when user logs in 
+   socket.broadcast.emit('Post', `${User.username} has joined the chat`)
 
-//   socket.on('logout' () => {
-//     io.emit('Post', `${User.username} has left the chat`)
-//   })
-// })
+   socket.on('logout', socket => {
+     io.emit('Post', `${User.username} has left the chat`)
+      })
+ })
 
 
 const PORT = 3000 || process.env.PORT
