@@ -6,8 +6,9 @@ const express = require('express');
 const socketio = require('socket.io')
 const session = require('express-session')
 const app = express();
-// const server = http.createServer(app)
-const io = socketio()
+const server = require('http').createServer(app)
+var io = require('socket.io')(server)
+
 
 const { Strategy: JWTStrategy, ExtractJwt } = require('passport-jwt')
 // defining passport path
@@ -21,7 +22,7 @@ app.use(session({
   cookie: { secure: false, maxAge: 60 * 30 * 1000 }
 }));
 
-
+app.set('socketio', io)
 
 //STATIC FOLDER
 app.use(express.static(path.join(__dirname, 'public')));
@@ -64,12 +65,6 @@ app.use(require('./routes'))
 //   })
 // })
 
-async function init() {
-  await require('./db').sync() 
-  app.listen(3000)
-}
 
-init();
-
-// const PORT = 3000 || process.env.PORT
-// server.listen(PORT, () => console.log(`Server running on ${PORT}`))
+const PORT = 3000 || process.env.PORT
+server.listen(PORT, () => console.log(`Server running on ${PORT}`))
