@@ -1,13 +1,13 @@
 require('dotenv').config() 
 
 const path = require('path');
-// const http = require('http');
+const http = require('http');
 const express = require('express');
 const socketio = require('socket.io')
 const session = require('express-session')
 const app = express();
-const server = require('http').createServer(app)
-var io = require('socket.io')(server)
+const server = http.createServer(app)
+var io = socketio(server)
 
 
 const { Strategy: JWTStrategy, ExtractJwt } = require('passport-jwt')
@@ -53,7 +53,7 @@ passport.use(new JWTStrategy({
 
 app.use(require('./routes'))
 //run on login or connect
-io.on('login', socket => {
+io.on('connection', socket => {
    console.log('new connection')
   socket.emit('Post','Welcome to Chat Wallet!')
 
@@ -64,6 +64,7 @@ io.on('login', socket => {
      io.emit('Post', `${User.username} has left the chat`)
       })
  })
+
 
 
 const PORT = 3000 || process.env.PORT
