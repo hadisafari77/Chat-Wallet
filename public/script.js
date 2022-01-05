@@ -37,7 +37,7 @@ socket.on('message', message => {
 })
 
 
-//outp;ut message to dom
+//output message to dom
 
 function outputMessage(message) {
   const div = document.createElement('div')

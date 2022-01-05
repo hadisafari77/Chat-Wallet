@@ -14,7 +14,7 @@
 
   <div id="container">
     <div id="menu">
-      <p class="welcome">Welcome, <b></b></p>
+      <p class="welcome" id="welcome"></p>
       <p class="leave"><a id="leave" href="/chatSelections.html">Exit Chat</a></p>
     </div>
 
@@ -39,6 +39,13 @@
     $(document).ready(function () { });
   </script> -->
   <script>
+    let user = localStorage.getItem('username')
+    function addUser() {
+      document.getElementById('welcome').innerHTML = `Welcome
+      <b>${user}</b>`
+    }
+
+    addUser()
   </script>
 </body>
 
