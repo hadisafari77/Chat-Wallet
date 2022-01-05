@@ -28,6 +28,9 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
           </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./profile.html">Profile</a>
+            </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Features</a>
           </li>
@@ -49,19 +52,22 @@ HERE YOU CAN FIND A LIST OF AVAILABLE CHAT ROOMS
       <h5 class="card-title">Chat Rooms</h5>
       <p class="card-text">LIST OF AVAILABLE CHAT ROOMS
       </p>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item"><a href="./chatRoom.html">Javascript</a></li>
-      <li class="list-group-item"><a href="./chatRoom.html">HTML</a></li>
-      <li class="list-group-item"><a href="./chatRoom.html">CSS</a></li>
-      <li class="list-group-item"><a href="./chatRoom.html">Surfing</a></li>
-      <li class="list-group-item"><a href="./chatRoom.html">Gaming</a></li>
-      <li class="list-group-item"><a href="./chatRoom.html">Make-up</a></li>
-      <li class="list-group-item"><a href="./chatRoom.html">Hair</a></li>
-      <li class="list-group-item"><a href="./chatRoom.html">Sports</a></li>
-      <li class="list-group-item"><a href="./chatRoom.html">Movies</a></li>
-      <li class="list-group-item"><a href="./chatRoom.html">Music</a></li>
-    </ul>
+      <form action="chatRoom.html">
+          <div class="form-control">
+            <label for="room">Room</label>
+            <select name="room" id="room">
+              <option value="Art">Art</option>
+              <option value="Beauty">Beauty</option>
+              <option value="CSS">CSS</option>
+              <option value="Gaming">Gaming</option>
+              <option value="HTML">HTML</option>
+              <option value="Javascript">Javascript</option>
+              <option value="Sports">Sports</option>
+              <option value="Surfing">Surfing</option>
+            </select>
+          </div>
+          <button type="submit" class="btn">Join Chat</button>
+          </form>
   </div>
 </div>
 
@@ -72,14 +78,17 @@ HERE YOU CAN FIND A LIST OF AVAILABLE CHAT ROOMS
     async function logOut() {
       localStorage.removeItem('username')
       localStorage.removeItem('token')
+    
       location = '/index.html'
     }
 
     document.getElementById('signout').addEventListener('click', event => {
       event.preventDefault()
       logOut()
-      console.log('user logged out')
+      alert('user logged out')
     })
+
+    
   </script>
 </body>
 

@@ -8,6 +8,7 @@ const session = require('express-session')
 const app = express();
 const server = http.createServer(app)
 const formatMessage = require('./utils/messages')
+const currentUser = require('./utils/getUser')
 
 sessionStore = new session.MemoryStore();
 var io = socketio(server)
@@ -69,22 +70,21 @@ app.use(require('./routes'))
 const botName = 'Chat Bot'
 //run on login or connect
 io.on('connection', socket => {
-  console.log(socket.request.user)
   console.log('new connection')
   socket.emit('message', formatMessage(botName,'Welcome to Chat Wallet!'))
 
 
   // broadcast when user logs in 
-  socket.broadcast.emit('message',formatMessage('user', 'Has joined the Chat'))
+  socket.broadcast.emit('message',formatMessage(botName, `${currentUser} Has joined the Chat`))
 
   socket.on('disconnect', socket => {
-    io.emit('message', formatMessage('user', ` Has left the chat`))
+    io.emit('message', formatMessage(botName, `${currentUser} Has left the chat`))
   })
 
   //listen for chat message
   socket.on('chatMessage', (usermsg) => {
     console.log(usermsg)
-    io.emit('message', formatMessage('usr', usermsg))
+    io.emit('message', formatMessage(currentUser, usermsg))
   })
   
 })

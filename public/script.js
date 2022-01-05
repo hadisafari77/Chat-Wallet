@@ -3,6 +3,18 @@ const box = document.querySelector('.chatbox')
 const chat = document.querySelector('.chat-form')
 const Input = document.querySelector('.chat-input')
 
+
+// get username and room from URL
+const {room} = Qs.parse(location.search, {
+  ignoreQueryPrefix: true
+})
+
+console.log(localStorage.username ,room)
+
+// let user = localStorage.getItem('username')
+// console.log(user)
+
+
 chat.addEventListener('submit', event => {
   event.preventDefault()
 
