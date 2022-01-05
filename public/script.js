@@ -22,8 +22,8 @@ chat.addEventListener('submit', event => {
 
   //message text
   const usermsg = Input.value
-
-  socket.emit('chatMessage', usermsg)
+  socket.emit('chatMessage', (usermsg, {username,room}))
+  console.log({username,room})
   
   //clear input
 
