@@ -18,7 +18,8 @@
       <p class="leave"><a id="leave" href="/chatSelections.html">Exit Chat</a></p>
     </div>
 
-    <div id="chatbox" style="height:600px; width: 600px; border: 1px solid black;"></div>
+    <div id="chatbox" style="overflow:scroll; height:600px; width: 600px; border: 1px solid black;" class="chatbox">
+    </div>
 
     <form name="message" class="chat-form">
       <label for="chat" name="chat">Chat:</label>
@@ -29,7 +30,7 @@
 
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
+<script src="socket.io/socket.io.js"></script>
 <script src="script.js"></script>
  <!-- <script type="text/javascript">
     // jQuery Document

@@ -7,18 +7,19 @@ const socketio = require('socket.io')
 const session = require('express-session')
 const app = express();
 const server = http.createServer(app)
+const formatMessage = require('./utils/messages')
 
 sessionStore = new session.MemoryStore();
 var io = socketio(server)
 app.set('socketio', io)
 let passportSocketIo = require('passport.socketio')
 
-io.use(passportSocketIo.authorize({
-  cookieParser: require('cookieParser'),
-  key: 'express.sid',
-  secret: process.env.SECRET,
-  store: sessionStore
-}))
+// io.use(passportSocketIo.authorize({
+//   cookieParser: require('cookieParser'),
+//   key: 'express.sid',
+//   secret: process.env.SECRET,
+//   store: sessionStore
+// }))
 
 
 
@@ -65,19 +66,27 @@ passport.use(new JWTStrategy({
 
 app.use(require('./routes'))
 
+const botName = 'Chat Bot'
 //run on login or connect
 io.on('connection', socket => {
   console.log(socket.request.user)
   console.log('new connection')
-  socket.emit('message', 'Welcome to Chat Wallet!')
+  socket.emit('message', formatMessage(botName,'Welcome to Chat Wallet!'))
 
 
   // broadcast when user logs in 
-  socket.broadcast.emit('message', `${socket.request.user} has joined the chat`)
+  socket.broadcast.emit('message',formatMessage('user', 'Has joined the Chat'))
 
   socket.on('disconnect', socket => {
-    io.emit('message', `${socket.request.user} has left the chat`)
+    io.emit('message', formatMessage('user', ` Has left the chat`))
   })
+
+  //listen for chat message
+  socket.on('chatMessage', (usermsg) => {
+    console.log(usermsg)
+    io.emit('message', formatMessage('usr', usermsg))
+  })
+  
 })
 
 
