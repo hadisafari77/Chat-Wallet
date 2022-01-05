@@ -8,7 +8,7 @@ const session = require('express-session')
 const app = express();
 const server = http.createServer(app)
 const formatMessage = require('./utils/messages')
-const currentUser = require('./utils/getUser')
+
 
 sessionStore = new session.MemoryStore();
 var io = socketio(server)
@@ -75,16 +75,16 @@ io.on('connection', socket => {
 
 
   // broadcast when user logs in 
-  socket.broadcast.emit('message',formatMessage(botName, `${currentUser} Has joined the Chat`))
+  socket.broadcast.emit('message',formatMessage(botName, ` Has joined the Chat`))
 
   socket.on('disconnect', socket => {
-    io.emit('message', formatMessage(botName, `${currentUser} Has left the chat`))
+    io.emit('message', formatMessage(botName, ` Has left the chat`))
   })
 
   //listen for chat message
   socket.on('chatMessage', (usermsg) => {
     console.log(usermsg)
-    io.emit('message', formatMessage(currentUser, usermsg))
+    io.emit('message', formatMessage('', usermsg))
   })
   
 })

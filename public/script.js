@@ -5,11 +5,11 @@ const Input = document.querySelector('.chat-input')
 
 
 // get username and room from URL
-const {room} = Qs.parse(location.search, {
+const {username, room} = Qs.parse(location.search, {
   ignoreQueryPrefix: true
 })
 
-console.log(localStorage.username ,room)
+console.log(username,room)
 
 // let user = localStorage.getItem('username')
 // console.log(user)

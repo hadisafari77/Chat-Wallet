@@ -52,7 +52,7 @@ HERE YOU CAN FIND A LIST OF AVAILABLE CHAT ROOMS
       <h5 class="card-title">Chat Rooms</h5>
       <p class="card-text">LIST OF AVAILABLE CHAT ROOMS
       </p>
-      <form action="chatRoom.html">
+      <form>
           <div class="form-control">
             <label for="room">Room</label>
             <select name="room" id="room">
@@ -66,7 +66,7 @@ HERE YOU CAN FIND A LIST OF AVAILABLE CHAT ROOMS
               <option value="Surfing">Surfing</option>
             </select>
           </div>
-          <button type="submit" class="btn">Join Chat</button>
+          <button type="submit" class="btn" id="submit">Join Chat</button>
           </form>
   </div>
 </div>
@@ -74,6 +74,11 @@ HERE YOU CAN FIND A LIST OF AVAILABLE CHAT ROOMS
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
   <script>
+    document.getElementById('submit').addEventListener('click', event => {
+      event.preventDefault()
+      location = `chatRoom.html?username=${localStorage.getItem('username')}&room=${document.getElementById('room').value}`
+    })
+
     async function logOut() {
       localStorage.removeItem('username')
       localStorage.removeItem('token')
