@@ -9,7 +9,9 @@ const {username, room} = Qs.parse(location.search, {
   ignoreQueryPrefix: true
 })
 
-console.log(username,room)
+
+//Join chatroom
+socket.emit('joinRoom', { username, room})
 
 // let user = localStorage.getItem('username')
 // console.log(user)

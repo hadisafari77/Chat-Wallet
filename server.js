@@ -70,23 +70,34 @@ app.use(require('./routes'))
 const botName = 'Chat Bot'
 //run on login or connect
 io.on('connection', socket => {
-  console.log('new connection')
-  socket.emit('message', formatMessage(botName,'Welcome to Chat Wallet!'))
+  socket.on('joinRoom', ({username, room}) => {
+    const currentUser = {username}
+    const roomSelector = {room}
+
+    socket.join(roomSelector)
+    //welcome current user
+    console.log('new connection')
+    socket.emit('message', formatMessage(botName, 'Welcome to Chat Wallet!'))
+
+    // broadcast when user logs in 
+    socket.broadcast.to(roomSelector).emit('message', formatMessage(botName, `${currentUser} Has joined the Chat`))
 
 
-  // broadcast when user logs in 
-  socket.broadcast.emit('message',formatMessage(botName, ` Has joined the Chat`))
-
-  socket.on('disconnect', socket => {
-    io.emit('message', formatMessage(botName, ` Has left the chat`))
   })
+
+
 
   //listen for chat message
   socket.on('chatMessage', (usermsg) => {
+
     console.log(usermsg)
     io.emit('message', formatMessage('', usermsg))
   })
   
+  //user disconnects
+  socket.on('disconnect', socket => {
+    io.emit('message', formatMessage(botName, ` Has left the chat`))
+  })
 })
 
 
