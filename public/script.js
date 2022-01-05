@@ -5,6 +5,10 @@ const Input = document.querySelector('.chat-input')
 
 chat.addEventListener('submit', event => {
   event.preventDefault()
-  socket.emit('Post', Input.value)
+  socket.emit('message', Input.value)
   Input.value = ''
+})
+
+socket.on('message', message => {
+  console.log(message)
 })

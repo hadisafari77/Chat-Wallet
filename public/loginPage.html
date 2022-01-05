@@ -59,10 +59,14 @@
       try {
         const { data } = await axios.post('/api/users/login', user)
         return data
+        loggedInUser.push(data)
+
       } catch (err) {
         alert('Something Went Wrong. Please Try Again')
       }
     }
+
+    let loggedInUser = {}
 
     document.getElementById('login').addEventListener('click', async function (event) {
       event.preventDefault()
@@ -82,7 +86,9 @@
         alert('Invalid Username or Password. Please Try Again.')
       }
     })
+
   </script>
+  <script src="script.js"></script>
 </body>
 
 </html>

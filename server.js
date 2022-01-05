@@ -1,4 +1,4 @@
-require('dotenv').config() 
+require('dotenv').config()
 
 const path = require('path');
 const http = require('http');
@@ -7,7 +7,19 @@ const socketio = require('socket.io')
 const session = require('express-session')
 const app = express();
 const server = http.createServer(app)
+
+sessionStore = new session.MemoryStore();
 var io = socketio(server)
+app.set('socketio', io)
+let passportSocketIo = require('passport.socketio')
+
+io.use(passportSocketIo.authorize({
+  cookieParser: require('cookieParser'),
+  key: 'express.sid',
+  secret: process.env.SECRET,
+  store: sessionStore
+}))
+
 
 
 const { Strategy: JWTStrategy, ExtractJwt } = require('passport-jwt')
@@ -22,7 +34,6 @@ app.use(session({
   cookie: { secure: false, maxAge: 60 * 30 * 1000 }
 }));
 
-app.set('socketio', io)
 
 //STATIC FOLDER
 app.use(express.static(path.join(__dirname, 'public')));
@@ -41,29 +52,33 @@ passport.deserializeUser(User.deserializeUser())
 
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.SECRET }
-, async function ({ id }, cb) {
-  try {
-    const user = await User.findOne({ where: { id }, include: [Post] })
-      cb (null, user) 
-    } catch(err) {
-        cb(err,null)
-      }
+  secretOrKey: process.env.SECRET
+}
+  , async function ({ id }, cb) {
+    try {
+      const user = await User.findOne({ where: { id }, include: [Post] })
+      cb(null, user)
+    } catch (err) {
+      cb(err, null)
+    }
   }))
 
 app.use(require('./routes'))
+
 //run on login or connect
 io.on('connection', socket => {
-   console.log('new connection')
-  socket.emit('Post','Welcome to Chat Wallet!')
+  console.log(socket.request.user)
+  console.log('new connection')
+  socket.emit('message', 'Welcome to Chat Wallet!')
 
-   // broadcast when user logs in 
-   socket.broadcast.emit('Post', `${User.username} has joined the chat`)
 
-   socket.on('logout', socket => {
-     io.emit('Post', `${User.username} has left the chat`)
-      })
- })
+  // broadcast when user logs in 
+  socket.broadcast.emit('message', `${socket.request.user} has joined the chat`)
+
+  socket.on('disconnect', socket => {
+    io.emit('message', `${socket.request.user} has left the chat`)
+  })
+})
 
 
 
